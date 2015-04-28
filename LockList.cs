@@ -26,6 +26,7 @@ namespace ListTest
 	/// <typeparam name="T"></typeparam>
 	public class LockList<T> : IList<T>
 	{
+		#region Private Vairables
 		// Underlying array holds the values
 		private T[] _values;
 
@@ -37,6 +38,7 @@ namespace ListTest
 
 		// For performence we will increase the size of the holding array by this number
 		private const int Chunk = 8;
+		#endregion Private Vairables
 
 		#region Private Methods
 
