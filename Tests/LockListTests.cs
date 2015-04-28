@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace ListTest.Tests
@@ -50,6 +51,20 @@ namespace ListTest.Tests
 		}
 
 		[Test]
+		public void InsertWorks()
+		{
+			var list = new LockList<int>();
+			list.Add(150);
+			list.Add(42);
+			list.Add(978);
+
+			list.Insert(1, 99);
+			list.Count.Should().Be(4);
+			list[1].Should().Be(99);
+			list[2].Should().Be(42);
+		}
+
+		[Test]
 		public void ContainsWorksForList()
 		{
 			var list = new LockList<int>();
@@ -86,6 +101,21 @@ namespace ListTest.Tests
 		}
 
 		[Test]
+		public void RemoveAtWorksForList()
+		{
+			var list = new LockList<int>();
+			list.Add(150);
+			list.Add(7);
+			list.Add(978);
+			list.Add(35);
+			list.Add(42);
+
+			list.RemoveAt(2);
+			list.Count.Should().Be(4);
+			list[2].Should().Be(35);
+		}
+
+		[Test]
 		public void ListIndexOfTest()
 		{
 			var list = new LockList<int>();
@@ -94,6 +124,37 @@ namespace ListTest.Tests
 			list.Add(978);
 
 			list.IndexOf(42).Should().Be(1);
+		}
+
+		[Test]
+		public void ClearRemovedAllItems()
+		{
+			var list = new LockList<int>();
+			list.Add(150);
+			list.Add(42);
+			list.Add(978);
+			list.Clear();
+
+			list.Should().NotBeNull();
+			list.Count.Should().Be(0);
+		}
+
+		[Test]
+		public void CopyToWorks()
+		{
+			var list = new LockList<int>();
+			list.Add(150);
+			list.Add(42);
+			list.Add(978);
+
+			var list2 = new int[3];
+
+			list.CopyTo(list2, 0);
+
+			list2.Length.Should().Be(3);
+			list2[0].Should().Be(150);
+			list2[1].Should().Be(42);
+			list2[2].Should().Be(978);
 		}
 	}
 }

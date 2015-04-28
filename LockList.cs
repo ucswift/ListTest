@@ -234,6 +234,10 @@ namespace ListTest
 		/// <returns></returns>
 		public T this[int index]
 		{
+			/* Bug here, we can currently access array elements that 
+			 * have not bee added (i.e. _size).
+			 */ 
+
 			get
 			{
 				return _values[index];
