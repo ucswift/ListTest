@@ -8,6 +8,21 @@ namespace ListTest
 	/// <summary>
 	/// Thread Safe Generic List implementation using locking
 	/// </summary>
+	/// <remarks>
+	/// This list implementation is Thead safe due to the fact that we lock the SyncRoot during operations that
+	/// affect the underlying data array. Primary operations that are locked are Adding, Removing and Sizing the
+	/// array.
+	/// 
+	/// Because the underlying array is mutable we have to lock or use CAS to control atomic multiple operations. 
+	/// This implementation uses locking which is not the most performent and can be prone to resource contention
+	/// and possibly deadlocking.
+	/// 
+	/// SyncRoot using CAS (Interlocked.CompareExchange) to create the inital sync object, then uses normal locking
+	/// for array/list operaitons.
+	/// 
+	/// I'm chunking array space creation by 8 objects to try and limit operations that require multiple locking (locking
+	/// to grow the list and locking to add the object).
+	/// </remarks>
 	/// <typeparam name="T"></typeparam>
 	public class LockList<T> : IList<T>
 	{
@@ -121,8 +136,8 @@ namespace ListTest
 			if (_size == _values.Length)
 				SizeArray(_size + 1);
 
-			_size++;
 			_values[_size] = item;
+			_size++;
 		}
 
 		public void Clear()
