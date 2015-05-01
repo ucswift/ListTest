@@ -51,6 +51,7 @@
     <Compile Include="CasList.cs" />
     <Compile Include="LockList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\CasListTests.cs" />
     <Compile Include="Tests\LockListTests.cs" />
   </ItemGroup>
   <ItemGroup>
